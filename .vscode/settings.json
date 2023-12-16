@@ -1,0 +1,10 @@
+{
+  "emeraldwalk.runonsave": {
+    "commands": [
+      {
+        "match": "./src/styles/globals.edit.css",
+        "cmd": "npm run tw:update-globals"
+      }
+    ]
+  }
+}
