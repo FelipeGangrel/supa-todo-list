@@ -1,12 +1,12 @@
-const { readFileSync, writeFileSync } = require("fs");
-const path = require("path");
+const { readFileSync, writeFileSync } = require('fs')
+const path = require('path')
 
-const CSS_ROOT = "../../src/styles";
+const CSS_ROOT = '../../src/styles'
 
-const file = readFileSync(path.join(__dirname, CSS_ROOT, "globals.edit.css"), {
-  encoding: "utf-8",
-});
+const file = readFileSync(path.join(__dirname, CSS_ROOT, 'globals.edit.css'), {
+  encoding: 'utf-8',
+})
 
-const fixed = file.replaceAll(/(.*--.+:).*hsl\((.+)\);/g, "$1 $2;");
+const fixed = file.replaceAll(/(.*--.+:).*hsl\((.+)\);/g, '$1 $2;')
 
-writeFileSync(path.join(__dirname, CSS_ROOT, "globals.css"), fixed);
+writeFileSync(path.join(__dirname, CSS_ROOT, 'globals.css'), fixed)

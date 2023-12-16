@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write --ignore-path .gitignore \"**/*.{js,jsx,json,md,ts,tsx}\"",
-    "tw:update-globals": "node ./scripts/tailwind/update-globals"
+    "tw:update-globals": "node ./scripts/tailwind/update-globals",
+    "supabase:generate-types": "./scripts/supabase/generate-types.sh"
   },
   "dependencies": {
     "@radix-ui/react-dropdown-menu": "^2.0.6",
@@ -39,6 +40,7 @@
     "postcss": "^8",
     "prettier": "^3.1.1",
     "prettier-plugin-tailwindcss": "^0.5.9",
+    "supabase": "^1.123.4",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
   }
