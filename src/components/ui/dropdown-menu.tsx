@@ -181,7 +181,7 @@ const DropdownMenuShortcut = ({
 }
 DropdownMenuShortcut.displayName = 'DropdownMenuShortcut'
 
-export const DropdownMenu = {
+const DropdownMenu = {
   Root: DropdownMenuRoot,
   CheckboxItem: DropdownMenuCheckboxItem,
   Content: DropdownMenuContent,
@@ -198,3 +198,5 @@ export const DropdownMenu = {
   SubTrigger: DropdownMenuSubTrigger,
   Trigger: DropdownMenuTrigger,
 }
+
+export { DropdownMenu }
