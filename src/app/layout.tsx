@@ -29,9 +29,6 @@ export default function RootLayout({ children }: Props) {
           enableSystem
           disableTransitionOnChange
         >
-          <div className="fixed right-4 top-4">
-            <ThemeToggle />
-          </div>
           {children}
         </ThemeProvider>
       </body>
