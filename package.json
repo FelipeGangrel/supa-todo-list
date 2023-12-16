@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write --ignore-path .gitignore \"**/*.{js,jsx,json,md,ts,tsx}\""
+    "format": "prettier --write --ignore-path .gitignore \"**/*.{js,jsx,json,md,ts,tsx}\"",
+    "tw:update-globals": "node ./scripts/tailwind/update-globals"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.0",
