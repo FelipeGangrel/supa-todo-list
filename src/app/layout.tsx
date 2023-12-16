@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
 import { ThemeProvider } from '@/components/theme-provider'
+import { ThemeToggle } from '@/components/theme-toggle'
 import { cn } from '@/lib/utils'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -19,7 +20,8 @@ type Props = {
 
 export default function RootLayout({ children }: Props) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head />
       <body className={cn(inter.className)}>
         <ThemeProvider
           attribute="class"
@@ -27,6 +29,9 @@ export default function RootLayout({ children }: Props) {
           enableSystem
           disableTransitionOnChange
         >
+          <div className="fixed right-4 top-4">
+            <ThemeToggle />
+          </div>
           {children}
         </ThemeProvider>
       </body>
