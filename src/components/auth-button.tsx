@@ -1,14 +1,12 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import {
-  createClientComponentClient,
-  User,
-} from '@supabase/auth-helpers-nextjs'
+import { User } from '@supabase/auth-helpers-nextjs'
 import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
+import { Alert } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Dialog } from '@/components/ui/dialog'
 import {
@@ -20,9 +18,8 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Database } from '@/types/supabase'
-
-import { Spinner } from './ui/spinner'
+import { Spinner } from '@/components/ui/spinner'
+import { supabaseClientSide as supabase } from '@/lib/supabase'
 
 const form = z.object({
   email: z.string().email({ message: 'Invalid email' }),
@@ -34,8 +31,7 @@ const AuthButton = () => {
   const [open, setOpen] = useState(false)
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
-
-  const supabase = createClientComponentClient<Database>()
+  const [emailSent, setEmailSent] = useState(false)
 
   const signInForm = useForm<FormValues>({
     resolver: zodResolver(form),
@@ -44,44 +40,37 @@ const AuthButton = () => {
     },
   })
 
-  const handleSignIn = useCallback(
-    async (values: FormValues) => {
-      const { error } = await supabase.auth.signInWithOtp({
-        email: values.email,
-        options: {
-          shouldCreateUser: true,
-          emailRedirectTo: `${location.origin}/auth/callback`,
-        },
-      })
-      if (!error) {
-        setOpen(false)
-      }
-    },
-    [supabase.auth]
-  )
+  const handleSignIn = useCallback(async (values: FormValues) => {
+    const { error } = await supabase.auth.signInWithOtp({
+      email: values.email,
+      options: {
+        shouldCreateUser: true,
+        emailRedirectTo: `${location.origin}/auth/callback`,
+      },
+    })
+    if (!error) {
+      setEmailSent(true)
+    }
+  }, [])
 
   const handleSignOut = useCallback(async () => {
     await supabase.auth.signOut()
     setUser(null)
-  }, [supabase.auth])
+  }, [])
 
   const getUser = useCallback(async () => {
     const { data } = await supabase.auth.getUser()
 
     setUser(data.user)
     setLoading(false)
-  }, [supabase.auth])
+  }, [])
 
   useEffect(() => {
     getUser()
   }, [getUser])
 
   if (loading) {
-    return (
-      <Button variant="outline" size="icon" disabled>
-        <Spinner />
-      </Button>
-    )
+    return <Spinner />
   }
 
   if (user) {
@@ -102,7 +91,11 @@ const AuthButton = () => {
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
-        <Button variant="link" size="default">
+        <Button
+          variant="link"
+          size="default"
+          onClick={() => setEmailSent(false)}
+        >
           <span>Sign In</span>
         </Button>
       </Dialog.Trigger>
@@ -111,29 +104,38 @@ const AuthButton = () => {
         <Dialog.Header>
           <Dialog.Title>Sign in</Dialog.Title>
         </Dialog.Header>
-        <Form {...signInForm}>
-          <form
-            onSubmit={signInForm.handleSubmit(handleSignIn)}
-            className="space-y-8"
-          >
-            <FormField
-              control={signInForm.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Email" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Dialog.Footer>
-              <Button type="submit">Sign in</Button>
-            </Dialog.Footer>
-          </form>
-        </Form>
+        {emailSent ? (
+          <Alert.Root>
+            <Alert.Title>Check your email</Alert.Title>
+            <Alert.Description>
+              We sent a magic link to your email address.
+            </Alert.Description>
+          </Alert.Root>
+        ) : (
+          <Form {...signInForm}>
+            <form
+              onSubmit={signInForm.handleSubmit(handleSignIn)}
+              className="space-y-8"
+            >
+              <FormField
+                control={signInForm.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Email" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Dialog.Footer>
+                <Button type="submit">Sign in</Button>
+              </Dialog.Footer>
+            </form>
+          </Form>
+        )}
       </Dialog.Content>
     </Dialog.Root>
   )
