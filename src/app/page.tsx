@@ -97,11 +97,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col justify-between py-4">
       <div className="container space-y-8">
-        <div className="flex flex-row justify-between">
-          <CreateTodo onCreate={handleCreateTodo} />
-          <h1 className="text-3xl font-bold">Todo list</h1>
-          <ThemeToggle />
-        </div>
+        <CreateTodo onCreate={handleCreateTodo} />
         <TodosList
           todos={todos}
           onDelete={handleDeleteTodo}
