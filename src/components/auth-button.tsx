@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { User } from '@supabase/auth-helpers-nextjs'
+import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
@@ -33,6 +34,8 @@ const AuthButton = () => {
   const [loading, setLoading] = useState(true)
   const [emailSent, setEmailSent] = useState(false)
 
+  const router = useRouter()
+
   const signInForm = useForm<FormValues>({
     resolver: zodResolver(form),
     defaultValues: {
@@ -55,8 +58,8 @@ const AuthButton = () => {
 
   const handleSignOut = useCallback(async () => {
     await supabase.auth.signOut()
-    setUser(null)
-  }, [])
+    router.refresh()
+  }, [router])
 
   const getUser = useCallback(async () => {
     const { data } = await supabase.auth.getUser()
@@ -75,13 +78,9 @@ const AuthButton = () => {
 
   if (user) {
     return (
-      <div className="flex items-center gap-2">
-        hello, <span>{user.email}</span>
-        <Button
-          variant="link"
-          onClick={handleSignOut}
-          className="text-destructive"
-        >
+      <div className="flex items-center gap-2 text-sm">
+        <span>Hello, {user.email}</span>
+        <Button variant="link" onClick={handleSignOut}>
           <span>Sign Out</span>
         </Button>
       </div>

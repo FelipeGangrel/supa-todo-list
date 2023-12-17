@@ -84,9 +84,9 @@ const CreateTodo: React.FC<CreateTodoProps> = ({ onCreate }) => {
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
-        <Button size="icon" variant="outline">
+        <Button variant="outline">
           <PlusIcon />
-          <span className="sr-only">Create todo</span>
+          <span>Create todo</span>
         </Button>
       </Dialog.Trigger>
       <Dialog.Overlay />
