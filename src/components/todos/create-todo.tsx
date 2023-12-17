@@ -2,10 +2,12 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { PlusIcon } from '@radix-ui/react-icons'
-import { useCallback, useState } from 'react'
+import { User } from '@supabase/auth-helpers-nextjs'
+import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
+import { Alert } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Dialog } from '@/components/ui/dialog'
 import {
@@ -17,6 +19,8 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Spinner } from '@/components/ui/spinner'
+import { supabaseClientSide as supabase } from '@/lib/supabase'
 
 const formSchema = z.object({
   title: z.string().min(1, { message: 'Title is required' }),
@@ -31,6 +35,8 @@ type CreateTodoProps = {
 
 const CreateTodo: React.FC<CreateTodoProps> = ({ onCreate }) => {
   const [open, setOpen] = useState(false)
+  const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState(true)
 
   const form = useForm<CreateTodoFormValues>({
     resolver: zodResolver(formSchema),
@@ -48,6 +54,32 @@ const CreateTodo: React.FC<CreateTodoProps> = ({ onCreate }) => {
     },
     [form, onCreate]
   )
+
+  const getUser = useCallback(async () => {
+    const { data } = await supabase.auth.getUser()
+
+    setUser(data.user)
+    setLoading(false)
+  }, [])
+
+  useEffect(() => {
+    getUser()
+  }, [getUser])
+
+  if (loading) {
+    return <Spinner />
+  }
+
+  if (!user) {
+    return (
+      <Alert.Root variant="destructive">
+        <Alert.Title>Not signed in</Alert.Title>
+        <Alert.Description>
+          You must be signed in to create a todo.
+        </Alert.Description>
+      </Alert.Root>
+    )
+  }
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
