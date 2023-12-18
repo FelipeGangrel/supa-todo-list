@@ -2,8 +2,10 @@ import '@/styles/globals.css'
 
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import Image from 'next/image'
 
 import { AuthButton } from '@/components/auth-button'
+import { AuthProvider } from '@/components/auth-provider'
 import { ThemeProvider } from '@/components/theme-provider'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { cn } from '@/lib/utils'
@@ -24,7 +26,15 @@ const Navbar = () => {
     <div className="sticky top-0 border-b bg-card py-4 shadow-sm">
       <div className="container">
         <div className="flex items-center">
-          <h2>Supabase Todo list</h2>
+          <div className="flex items-center gap-2">
+            <Image
+              src="/supabase-logo-icon.svg"
+              width={24}
+              height={24}
+              alt="Supabase logo"
+            />
+            <h2 className="text-md font-medium">{metadata.title as string}</h2>
+          </div>
           <div className="ml-auto flex items-center gap-2">
             <AuthButton />
             <ThemeToggle />
@@ -46,8 +56,10 @@ export default function RootLayout({ children }: Props) {
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-          {children}
+          <AuthProvider>
+            <Navbar />
+            {children}
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
