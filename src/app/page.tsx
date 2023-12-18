@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 
+import { useAuth } from '@/components/providers/auth-provider'
 import {
   CreateTodo,
   type CreateTodoFormValues,
@@ -11,6 +12,7 @@ import {
   UpdateTodo,
   type UpdateTodoFormValues,
 } from '@/components/todos/update-todo'
+import { Spinner } from '@/components/ui/spinner'
 import { supabaseClientSide } from '@/lib/supabase'
 import { Database } from '@/types/supabase'
 
@@ -19,6 +21,7 @@ type Todo = Database['public']['Tables']['todos']['Row']
 export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([])
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null)
+  const { user, loading } = useAuth()
 
   const handleCreateTodo = useCallback(async (values: CreateTodoFormValues) => {
     const {
@@ -109,12 +112,22 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col justify-between py-4">
       <div className="container space-y-8">
-        <CreateTodo onCreate={handleCreateTodo} />
-        <TodosList
-          todos={todos}
-          onDelete={handleDeleteTodo}
-          onSelectTodo={setSelectedTodo}
-        />
+        {loading && <Spinner />}
+        {!user && !loading && (
+          <h1 className="text-2xl font-bold">
+            You need to sign in to see your todos
+          </h1>
+        )}
+        {user && !loading && (
+          <>
+            <CreateTodo onCreate={handleCreateTodo} />
+            <TodosList
+              todos={todos}
+              onDelete={handleDeleteTodo}
+              onSelectTodo={setSelectedTodo}
+            />
+          </>
+        )}
       </div>
       {selectedTodo && (
         <UpdateTodo
