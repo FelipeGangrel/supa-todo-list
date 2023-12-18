@@ -6,8 +6,10 @@ import Image from 'next/image'
 
 import { AuthButton } from '@/components/auth-button'
 import { AuthProvider } from '@/components/auth-provider'
+import { Navbar } from '@/components/layout/navbar'
 import { ThemeProvider } from '@/components/theme-provider'
 import { ThemeToggle } from '@/components/theme-toggle'
+import { Toaster } from '@/components/ui/toaster'
 import { cn } from '@/lib/utils'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -19,30 +21,6 @@ export const metadata: Metadata = {
 
 type Props = {
   readonly children: React.ReactNode
-}
-
-const Navbar = () => {
-  return (
-    <div className="sticky top-0 border-b bg-card py-4 shadow-sm">
-      <div className="container">
-        <div className="flex items-center">
-          <div className="flex items-center gap-2">
-            <Image
-              src="/supabase-logo-icon.svg"
-              width={24}
-              height={24}
-              alt="Supabase logo"
-            />
-            <h2 className="text-md font-medium">{metadata.title as string}</h2>
-          </div>
-          <div className="ml-auto flex items-center gap-2">
-            <AuthButton />
-            <ThemeToggle />
-          </div>
-        </div>
-      </div>
-    </div>
-  )
 }
 
 export default function RootLayout({ children }: Props) {
@@ -59,6 +37,7 @@ export default function RootLayout({ children }: Props) {
           <AuthProvider>
             <Navbar />
             {children}
+            <Toaster />
           </AuthProvider>
         </ThemeProvider>
       </body>
