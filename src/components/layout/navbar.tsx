@@ -1,7 +1,7 @@
 import Image from 'next/image'
 
-import { AuthButton } from '../auth-button'
-import { ThemeToggle } from '../theme-toggle'
+import { AuthWidget } from './auth-widget'
+import { ThemeDropdown } from './theme-dropdown'
 
 const Navbar = () => {
   return (
@@ -15,14 +15,13 @@ const Navbar = () => {
               height={24}
               alt="Supabase logo"
             />
-
             <h2 className="text-md font-semibold text-primary">
               Supabase Todo List
             </h2>
           </div>
           <div className="ml-auto flex items-center gap-2">
-            <AuthButton />
-            <ThemeToggle />
+            <AuthWidget />
+            <ThemeDropdown />
           </div>
         </div>
       </div>
