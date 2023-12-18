@@ -1,9 +1,8 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { User } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
@@ -22,6 +21,8 @@ import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
 import { supabaseClientSide as supabase } from '@/lib/supabase'
 
+import { useAuth } from './auth-provider'
+
 const form = z.object({
   email: z.string().email({ message: 'Invalid email' }),
 })
@@ -30,10 +31,11 @@ type FormValues = z.infer<typeof form>
 
 const AuthButton = () => {
   const [open, setOpen] = useState(false)
-  const [user, setUser] = useState<User | null>(null)
-  const [loading, setLoading] = useState(true)
+  // const [user, setUser] = useState<User | null>(null)
+  // const [loading, setLoading] = useState(true)
   const [emailSent, setEmailSent] = useState(false)
 
+  const { user, loading } = useAuth()
   const router = useRouter()
 
   const signInForm = useForm<FormValues>({
@@ -60,17 +62,6 @@ const AuthButton = () => {
     await supabase.auth.signOut()
     router.refresh()
   }, [router])
-
-  const getUser = useCallback(async () => {
-    const { data } = await supabase.auth.getUser()
-
-    setUser(data.user)
-    setLoading(false)
-  }, [])
-
-  useEffect(() => {
-    getUser()
-  }, [getUser])
 
   if (loading) {
     return <Spinner />
