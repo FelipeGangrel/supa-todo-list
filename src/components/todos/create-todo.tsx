@@ -2,8 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { PlusIcon } from '@radix-ui/react-icons'
-import { User } from '@supabase/auth-helpers-nextjs'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
@@ -20,7 +19,8 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
-import { supabaseClientSide as supabase } from '@/lib/supabase'
+
+import { useAuth } from '../auth-provider'
 
 const formSchema = z.object({
   title: z.string().min(1, { message: 'Title is required' }),
@@ -35,8 +35,8 @@ type CreateTodoProps = {
 
 const CreateTodo: React.FC<CreateTodoProps> = ({ onCreate }) => {
   const [open, setOpen] = useState(false)
-  const [user, setUser] = useState<User | null>(null)
-  const [loading, setLoading] = useState(true)
+
+  const { user, loading } = useAuth()
 
   const form = useForm<CreateTodoFormValues>({
     resolver: zodResolver(formSchema),
@@ -54,17 +54,6 @@ const CreateTodo: React.FC<CreateTodoProps> = ({ onCreate }) => {
     },
     [form, onCreate]
   )
-
-  const getUser = useCallback(async () => {
-    const { data } = await supabase.auth.getUser()
-
-    setUser(data.user)
-    setLoading(false)
-  }, [])
-
-  useEffect(() => {
-    getUser()
-  }, [getUser])
 
   if (loading) {
     return <Spinner />
