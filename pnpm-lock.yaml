@@ -7,6 +7,8 @@ specifiers:
   '@radix-ui/react-icons': ^1.3.0
   '@radix-ui/react-label': ^2.0.2
   '@radix-ui/react-slot': ^1.0.2
+  '@radix-ui/react-toast': ^1.1.5
+  '@supabase/auth-helpers-nextjs': ^0.8.7
   '@supabase/supabase-js': ^2.39.0
   '@types/node': ^20
   '@types/react': ^18
@@ -43,6 +45,8 @@ dependencies:
   '@radix-ui/react-icons': 1.3.0_react@18.2.0
   '@radix-ui/react-label': 2.0.2_y25r3j74y2ixp3wwje7zxg74ra
   '@radix-ui/react-slot': 1.0.2_qinpt5tsrh57s4kh6guy25fqdq
+  '@radix-ui/react-toast': 1.1.5_y25r3j74y2ixp3wwje7zxg74ra
+  '@supabase/auth-helpers-nextjs': 0.8.7_y3ysvdts4vvj5ufmr2bdua5dbe
   '@supabase/supabase-js': 2.39.0
   class-variance-authority: 0.7.0
   clsx: 2.0.0
@@ -766,6 +770,38 @@ packages:
       react: 18.2.0
     dev: false
 
+  /@radix-ui/react-toast/1.1.5_y25r3j74y2ixp3wwje7zxg74ra:
+    resolution: {integrity: sha512-fRLn227WHIBRSzuRzGJ8W+5YALxofH23y0MlPLddaIpLpCDqdE0NZlS2NRQDRiptfxDeeCjgFIpexB1/zkxDlw==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.23.6
+      '@radix-ui/primitive': 1.0.1
+      '@radix-ui/react-collection': 1.0.3_y25r3j74y2ixp3wwje7zxg74ra
+      '@radix-ui/react-compose-refs': 1.0.1_qinpt5tsrh57s4kh6guy25fqdq
+      '@radix-ui/react-context': 1.0.1_qinpt5tsrh57s4kh6guy25fqdq
+      '@radix-ui/react-dismissable-layer': 1.0.5_y25r3j74y2ixp3wwje7zxg74ra
+      '@radix-ui/react-portal': 1.0.4_y25r3j74y2ixp3wwje7zxg74ra
+      '@radix-ui/react-presence': 1.0.1_y25r3j74y2ixp3wwje7zxg74ra
+      '@radix-ui/react-primitive': 1.0.3_y25r3j74y2ixp3wwje7zxg74ra
+      '@radix-ui/react-use-callback-ref': 1.0.1_qinpt5tsrh57s4kh6guy25fqdq
+      '@radix-ui/react-use-controllable-state': 1.0.1_qinpt5tsrh57s4kh6guy25fqdq
+      '@radix-ui/react-use-layout-effect': 1.0.1_qinpt5tsrh57s4kh6guy25fqdq
+      '@radix-ui/react-visually-hidden': 1.0.3_y25r3j74y2ixp3wwje7zxg74ra
+      '@types/react': 18.2.45
+      '@types/react-dom': 18.2.18
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
   /@radix-ui/react-use-callback-ref/1.0.1_qinpt5tsrh57s4kh6guy25fqdq:
     resolution: {integrity: sha512-D94LjX4Sp0xJFVaoQOd3OO9k7tpBYNOXdVhkltUbGv2Qb9OXdrg/CpsjlZv7ia14Sylv398LswWBVVu5nqKzAQ==}
     peerDependencies:
@@ -854,6 +890,27 @@ packages:
       react: 18.2.0
     dev: false
 
+  /@radix-ui/react-visually-hidden/1.0.3_y25r3j74y2ixp3wwje7zxg74ra:
+    resolution: {integrity: sha512-D4w41yN5YRKtu464TLnByKzMDG/JlMPHtfZgQAu9v6mNakUqGUI9vUrfQKz8NK41VMm/xbZbh76NUTVtIYqOMA==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.23.6
+      '@radix-ui/react-primitive': 1.0.3_y25r3j74y2ixp3wwje7zxg74ra
+      '@types/react': 18.2.45
+      '@types/react-dom': 18.2.18
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
   /@radix-ui/rect/1.0.1:
     resolution: {integrity: sha512-fyrgCaedtvMg9NK3en0pnOYJdtfwxUcNolezkNPUsoX57X8oQk+NkqcvzHXD2uKNij6GXmWU9NDru2IWjrO4BQ==}
     dependencies:
@@ -863,6 +920,25 @@ packages:
   /@rushstack/eslint-patch/1.6.1:
     resolution: {integrity: sha512-UY+FGM/2jjMkzQLn8pxcHGMaVLh9aEitG3zY2CiY7XHdLiz3bZOwa6oDxNqEMv7zZkV+cj5DOdz0cQ1BP5Hjgw==}
     dev: true
+
+  /@supabase/auth-helpers-nextjs/0.8.7_y3ysvdts4vvj5ufmr2bdua5dbe:
+    resolution: {integrity: sha512-iYdOjFo0GkRvha340l8JdCiBiyXQuG9v8jnq7qMJ/2fakrskRgHTCOt7ryWbip1T6BExcWKC8SoJrhCzPOxhhg==}
+    peerDependencies:
+      '@supabase/supabase-js': ^2.19.0
+    dependencies:
+      '@supabase/auth-helpers-shared': 0.6.3_y3ysvdts4vvj5ufmr2bdua5dbe
+      '@supabase/supabase-js': 2.39.0
+      set-cookie-parser: 2.6.0
+    dev: false
+
+  /@supabase/auth-helpers-shared/0.6.3_y3ysvdts4vvj5ufmr2bdua5dbe:
+    resolution: {integrity: sha512-xYQRLFeFkL4ZfwC7p9VKcarshj3FB2QJMgJPydvOY7J5czJe6xSG5/wM1z63RmAzGbCkKg+dzpq61oeSyWiGBQ==}
+    peerDependencies:
+      '@supabase/supabase-js': ^2.19.0
+    dependencies:
+      '@supabase/supabase-js': 2.39.0
+      jose: 4.15.4
+    dev: false
 
   /@supabase/functions-js/2.1.5:
     resolution: {integrity: sha512-BNzC5XhCzzCaggJ8s53DP+WeHHGT/NfTsx2wUSSGKR2/ikLFQTBCDzMvGz/PxYMqRko/LwncQtKXGOYp1PkPaw==}
@@ -2521,6 +2597,10 @@ packages:
     resolution: {integrity: sha512-gFqAIbuKyyso/3G2qhiO2OM6shY6EPP/R0+mkDbyspxKazh8BXDC5FiFsUjlczgdNz/vfra0da2y+aHrusLG/Q==}
     hasBin: true
 
+  /jose/4.15.4:
+    resolution: {integrity: sha512-W+oqK4H+r5sITxfxpSU+MMdr/YSWGvgZMQDIsNoBDGGy4i7GBPTtvFKibQzW06n3U3TqHjhvBJsirShsEJ6eeQ==}
+    dev: false
+
   /js-tokens/4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
 
@@ -3349,6 +3429,10 @@ packages:
     dependencies:
       lru-cache: 6.0.0
     dev: true
+
+  /set-cookie-parser/2.6.0:
+    resolution: {integrity: sha512-RVnVQxTXuerk653XfuliOxBP81Sf0+qfQE73LIYKcyMYHG94AuH0kgrQpRDuTZnSmjpysHmzxJXKNfa6PjFhyQ==}
+    dev: false
 
   /set-function-length/1.1.1:
     resolution: {integrity: sha512-VoaqjbBJKiWtg4yRcKBQ7g7wnGnLV3M8oLvVWwOk2PdYY6PEFegR1vezXR0tw6fZGF9csVakIRjrJiy2veSBFQ==}

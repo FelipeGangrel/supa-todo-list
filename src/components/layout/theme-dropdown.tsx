@@ -7,7 +7,7 @@ import * as React from 'react'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu } from '@/components/ui/dropdown-menu'
 
-export function ThemeToggle() {
+const ThemeDropdown = () => {
   const { setTheme } = useTheme()
 
   return (
@@ -33,3 +33,5 @@ export function ThemeToggle() {
     </DropdownMenu.Root>
   )
 }
+
+export { ThemeDropdown }

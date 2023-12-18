@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 
-import { ThemeToggle } from '@/components/theme-toggle'
+import { useAuth } from '@/components/providers/auth-provider'
 import {
   CreateTodo,
   type CreateTodoFormValues,
@@ -12,7 +12,8 @@ import {
   UpdateTodo,
   type UpdateTodoFormValues,
 } from '@/components/todos/update-todo'
-import { supabase } from '@/lib/supabase'
+import { Spinner } from '@/components/ui/spinner'
+import { supabaseClientSide } from '@/lib/supabase'
 import { Database } from '@/types/supabase'
 
 type Todo = Database['public']['Tables']['todos']['Row']
@@ -20,9 +21,18 @@ type Todo = Database['public']['Tables']['todos']['Row']
 export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([])
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null)
+  const { user, loading } = useAuth()
 
   const handleCreateTodo = useCallback(async (values: CreateTodoFormValues) => {
-    const { data: todos, error } = await supabase
+    const {
+      data: { user },
+    } = await supabaseClientSide.auth.getUser()
+
+    if (!user?.id) {
+      return Promise.reject(new Error('User not found'))
+    }
+
+    const { data: todos, error } = await supabaseClientSide
       .from('todos')
       .insert([
         {
@@ -39,7 +49,9 @@ export default function Home() {
   }, [])
 
   const handleReadTodos = useCallback(async () => {
-    const { data: todos, error } = await supabase.from('todos').select()
+    const { data: todos, error } = await supabaseClientSide
+      .from('todos')
+      .select()
 
     if (error) {
       return Promise.reject(error)
@@ -50,7 +62,7 @@ export default function Home() {
 
   const handleUpdateTodo = useCallback(
     async (id: Todo['id'], values: UpdateTodoFormValues): Promise<void> => {
-      const { data: todos, error } = await supabase
+      const { data: todos, error } = await supabaseClientSide
         .from('todos')
         .update({
           title: values.title ?? null,
@@ -79,7 +91,10 @@ export default function Home() {
 
   const handleDeleteTodo = useCallback(
     async (id: Todo['id']): Promise<void> => {
-      const { error } = await supabase.from('todos').delete().eq('id', id)
+      const { error } = await supabaseClientSide
+        .from('todos')
+        .delete()
+        .eq('id', id)
 
       if (error) {
         return Promise.reject(error)
@@ -97,16 +112,22 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col justify-between py-4">
       <div className="container space-y-8">
-        <div className="flex flex-row justify-between">
-          <CreateTodo onCreate={handleCreateTodo} />
-          <h1 className="text-3xl font-bold">Todo list</h1>
-          <ThemeToggle />
-        </div>
-        <TodosList
-          todos={todos}
-          onDelete={handleDeleteTodo}
-          onSelectTodo={setSelectedTodo}
-        />
+        {loading && <Spinner />}
+        {!user && !loading && (
+          <h1 className="text-2xl font-bold">
+            You need to sign in to see your todos
+          </h1>
+        )}
+        {user && !loading && (
+          <>
+            <CreateTodo onCreate={handleCreateTodo} />
+            <TodosList
+              todos={todos}
+              onDelete={handleDeleteTodo}
+              onSelectTodo={setSelectedTodo}
+            />
+          </>
+        )}
       </div>
       {selectedTodo && (
         <UpdateTodo
