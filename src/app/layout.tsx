@@ -2,13 +2,10 @@ import '@/styles/globals.css'
 
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import Image from 'next/image'
 
-import { AuthButton } from '@/components/layout/auth-widget'
 import { Navbar } from '@/components/layout/navbar'
 import { AuthProvider } from '@/components/providers/auth-provider'
 import { ThemeProvider } from '@/components/providers/theme-provider'
-import { ThemeDropdown } from '@/components/layout/theme-dropdown'
 import { Toaster } from '@/components/ui/toaster'
 import { cn } from '@/lib/utils'
 
