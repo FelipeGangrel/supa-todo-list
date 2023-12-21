@@ -9,6 +9,7 @@
     "lint": "next lint",
     "format": "prettier --write --ignore-path .gitignore \"**/*.{js,jsx,json,md,ts,tsx}\"",
     "tw:update-globals": "node ./scripts/tailwind/update-globals",
+    "tw:create-editable-globals": "node ./scripts/tailwind/create-editable-globals",
     "supabase:generate-types": "./scripts/supabase/generate-types.sh"
   },
   "dependencies": {
